@@ -1,0 +1,38 @@
+- motivacia
+- existujuce bot detection riesenia (cloudflare bot detection, aws waf bot control)
+- ako budeme testovat (arrange (patch) -> act (run) -> assert (evaluate))
+ - prostredie
+ - definicia uspechu, v CF pripade obtain clearance cookie, ktory nasledne ide s kazdym requestom
+
+selenium/playwright
+- ake flagy leakuje (prenastaveny navigator napr.)
+- patchovanie/spoofovanie parametrov
+
+chromium binarka
+- specificke vlastnosti
+- patchovanie/spoofovanie parametrov
+
+urovne detekcie:
+network layer
+- ip (datacenter, residential, rate limiting)
+- geolokacia (jazyk stranky iny ako IP z daneho ASN)
+- tls (ja3/ja4) fingerprint (rozdielne cipher suites)
+- tcp/ip (tcp window size alebo co)
+
+application layer
+- js (navigator)
+- fingerprint v browseri (extensions, screen resolution etc)
+- headed/headless
+- extensions
+- analyza injectnuteho CF skriptu (overridnut navigator, skusit zistit ci bolo tampered with)
+
+behavioralne
+- pohyb mysi
+- rychlost pisania
+
+- zapojenie proxy (plugin? systemovo?)
+- ziskanie clearance cookie, pouzitie v inom browseri/curl
+
+výsledok:
+- patchnuty selenium/playwright
+- vysledky co malo efekt/co nie
