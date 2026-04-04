@@ -1,0 +1,28 @@
+name: diplomka-stage
+
+services:
+  caddy:
+    image: caddy:latest
+    restart: unless-stopped
+    ports:
+      - "443:443"
+    volumes:
+      - ./Caddyfile.stage:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.stage
+    command: >
+      gunicorn myproject.wsgi:application
+      --bind 0.0.0.0:8000
+      --workers 4
+    volumes:
+      - .:/app
+
+
+volumes:
+  caddy_data:
+  caddy_config:

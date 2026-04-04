@@ -1,3 +1,4 @@
 selenium
 playwright
 django
+gunicorn

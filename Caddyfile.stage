@@ -1,0 +1,5 @@
+dp.skoruba.sk {
+
+    reverse_proxy backend:8000
+
+}
