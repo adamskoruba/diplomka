@@ -1,34 +1,22 @@
-# --- Stage 1: Builder ---
 FROM python:3.12-alpine AS builder
 
-ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
+ENV PYTHONDONTWRITEBYTECODE=1
 
 WORKDIR /app
 
-# Install build-base in case your requirements need to compile C extensions (common in Alpine)
-RUN apk add --no-cache gcc musl-dev python3-dev libffi-dev
-
-COPY requirements_django.txt .
+COPY requirements_django.txt /app/
 RUN pip install --upgrade pip
 RUN pip install --prefix=/install -r requirements_django.txt
 
-# --- Stage 2: Final ---
+COPY . /app/
+
 FROM python:3.12-alpine
 
-ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
-# Critical: Ensure /app is in the python path
-ENV PYTHONPATH=/app
+ENV PYTHONDONTWRITEBYTECODE=1
 
 WORKDIR /app
 
-# Copy the installed libraries from builder
 COPY --from=builder /install /usr/local
-
-# Copy your actual project code
-# Ensure your .dockerignore doesn't exclude the cfwebsite folder!
-COPY . /app/
-
-# Gunicorn command (No change needed to your Compose command if this is right)
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "4", "cfwebsite.wsgi:application"]
+COPY --from=builder /app /app

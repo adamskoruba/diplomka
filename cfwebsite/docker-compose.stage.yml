@@ -15,7 +15,10 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.stage
-    command: gunicorn --bind 0.0.0.0:8000 --workers 4 --chdir /app cfwebsite.wsgi:application
+    command: >
+      gunicorn cfwebsite.wsgi:application
+      --bind 0.0.0.0:8000
+      --workers 4
 
 volumes:
   caddy_data:
