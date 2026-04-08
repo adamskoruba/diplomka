@@ -8,9 +8,9 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./Caddyfile.stage:/etc/Caddyfile:ro
-      - ./cloudflare-origin.crt:/etc/cloudflare-origin.crt:ro
-      - ./cloudflare-origin.key:/etc/cloudflare-origin.key:ro
+      - ./Caddyfile.stage:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
 
   backend:
     build:
@@ -20,3 +20,7 @@ services:
       gunicorn cfwebsite.wsgi:application
       --bind 0.0.0.0:8000
       --workers 4
+
+volumes:
+  caddy_data:
+  caddy_config:
