@@ -18,5 +18,7 @@ ENV PYTHONDONTWRITEBYTECODE=1
 
 WORKDIR /app
 
+ENV PYTHONPATH=/app
+
 COPY --from=builder /install /usr/local
 COPY --from=builder /app /app
