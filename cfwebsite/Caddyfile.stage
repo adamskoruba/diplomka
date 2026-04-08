@@ -2,5 +2,5 @@ dp.skoruba.sk {
 
     reverse_proxy backend:8000
 
-    tls /etc/caddy/cloudflare-origin.crt /etc/caddy/cloudflare-origin.key
+    tls /etc/cloudflare-origin.crt /etc/cloudflare-origin.key
 }

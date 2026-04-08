@@ -7,9 +7,9 @@ services:
     ports:
       - "443:443"
     volumes:
-      - ./Caddyfile.stage:/etc/caddy/Caddyfile:ro
-      - ./cloudflare-origin.crt:/etc/caddy/cloudflare-origin.crt:ro
-      - ./cloudflare-origin.key:/etc/caddy/cloudflare-origin.key:ro
+      - ./Caddyfile.stage:/etc/Caddyfile:ro
+      - ./cloudflare-origin.crt:/etc/cloudflare-origin.crt:ro
+      - ./cloudflare-origin.key:/etc/cloudflare-origin.key:ro
 
   backend:
     build:
