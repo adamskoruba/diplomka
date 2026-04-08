@@ -16,7 +16,7 @@ services:
       context: .
       dockerfile: Dockerfile.stage
     command: >
-      gunicorn cfwebsite.wsgi:application
+      gunicorn --chdir /app cfwebsite.wsgi:application
       --bind 0.0.0.0:8000
       --workers 4
 
