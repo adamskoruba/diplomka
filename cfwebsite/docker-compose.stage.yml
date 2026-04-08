@@ -7,9 +7,9 @@ services:
     ports:
       - "443:443"
     volumes:
-      - ./Caddyfile.stage:/etc/caddy/Caddyfile
-      - caddy_data:/data
-      - caddy_config:/config
+      - ./Caddyfile.stage:/etc/caddy/Caddyfile:ro
+      - ./cloudflare-origin.crt:/etc/caddy/cloudflare-origin.crt:ro
+      - ./cloudflare-origin.key:/etc/caddy/cloudflare-origin.key:ro
 
   backend:
     build:
@@ -19,7 +19,3 @@ services:
       gunicorn cfwebsite.wsgi:application
       --bind 0.0.0.0:8000
       --workers 4
-
-volumes:
-  caddy_data:
-  caddy_config:
