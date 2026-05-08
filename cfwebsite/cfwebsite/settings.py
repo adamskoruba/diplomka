@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-xmov5r6z9%e!p!w+2%@_x!0)s3(9#*x*a$b5m_ex%554vo-jrb
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['dp.skoruba.sk']
+ALLOWED_HOSTS = ['dp.skoruba.sk', "localhost", "127.0.0.1"]
 
 
 # Application definition
