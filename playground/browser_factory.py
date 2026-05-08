@@ -13,6 +13,7 @@ CHROMEDRIVER_FOR_TESTING_PATH = r"C:\Users\adams\Downloads\chromedriver-win64\ch
 
 class BrowserType(Enum):
     DEFAULT_SELENIUM = "default_selenium"
+    UNDETECTED_CHROMEDRIVER = "undetected_chromedriver"
 
 class BrowserFactory:
     _registry = {}
@@ -40,3 +41,14 @@ def create_default_selenium():
 
     driver = webdriver.Chrome(options=options, service=service)
     return driver
+
+@BrowserFactory.register(BrowserType.UNDETECTED_CHROMEDRIVER)
+def create_undetected_chromedriver():
+    driver = uc.Chrome(browser_executable_path=CHROME_BETA_PATH)
+    return driver
+
+"""@BrowserFactory.register(BrowserType.?)
+def create_default_selenium():
+    driver = uc.Chrome(browser_executable_path=CHROME_FOR_TESTING_PATH,
+    driver_executable_path=CHROMEDRIVER_FOR_TESTING_PATH)
+    return driver"""
