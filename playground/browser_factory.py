@@ -35,7 +35,7 @@ class BrowserFactory:
 @BrowserFactory.register(BrowserType.DEFAULT_SELENIUM)
 def create_default_selenium():
     options = webdriver.ChromeOptions()
-    options.binary_location = CHROME_FOR_TESTING_PATH
+    options.binary_location = CHROME_BETA_PATH
     service = Service(CHROMEDRIVER_FOR_TESTING_PATH)
 
     driver = webdriver.Chrome(options=options, service=service)

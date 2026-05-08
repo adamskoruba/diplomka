@@ -8,7 +8,7 @@ browser = BrowserFactory.create(BrowserType.DEFAULT_SELENIUM)
 
 browser.execute_cdp_cmd(
     "Page.addScriptToEvaluateOnNewDocument",
-    {"source": load_js("webdriver.js")}
+    {"source": load_js("touched_navigator.js")}
 )
 
 browser.get(DP)
