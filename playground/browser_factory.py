@@ -5,7 +5,7 @@ from selenium.webdriver.chrome.service import Service
 
 CHROME_FOR_TESTING_PATH = r"C:\Users\adams\Downloads\chrome-win64\chrome-win64\chrome.exe"
 CHROME_BETA_PATH = r"C:\Program Files\Google\Chrome Beta\Application\chrome.exe"
-CHROMEDRIVER_FOR_TESTING_PATH = r"C:\Users\adams\Downloads\chromedriver-win64\chromedriver-win64\chromedriver.exe"
+CHROMEDRIVER_FOR_TESTING_PATH = r"C:\Users\adams\Downloads\chromedriver-win32\chromedriver-win32\chromedriver.exe"
 
 
 # driver = uc.Chrome(browser_executable_path=CHROME_FOR_TESTING_PATH,

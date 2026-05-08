@@ -16,20 +16,13 @@ Object.defineProperty(window, "navigator", {
             console.log(msg);
             window.__navLog.push(msg);
 
-            // spoof webdriver
-            if (key === "webdriver") {
-                return false;
-            }
-
             const value = target[key];
+
             return typeof value === "function"
                 ? value.bind(target)
                 : value;
-        },
-
-        has(target, key) {
-            if (key === "webdriver") return false;
-            return key in target;
         }
-    })
+    }),
+    writable: false,
+    configurable: false
 });

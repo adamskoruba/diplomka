@@ -392,7 +392,7 @@ class Patcher(object):
                 try:
                     if self.user_multi_procs:
                         break
-                    os.unlink(self.executable_path)
+                    #os.unlink(self.executable_path)
                     logger.debug("successfully unlinked %s" % self.executable_path)
                     break
                 except (OSError, RuntimeError, PermissionError):
