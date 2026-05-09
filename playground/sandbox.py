@@ -13,6 +13,6 @@ browser = BrowserFactory.create(BrowserType.CUSTOM_CHROME)
 #browser.execute_cdp_cmd("Page.addScriptToEvaluateOnNewDocument", {"source": load_js("patch_webdriver.js")})
 
 print('xd')
-browser.get(DP)
+browser.get(CHATGPT)
 input("Press ENTER to quit...")
 browser.quit()

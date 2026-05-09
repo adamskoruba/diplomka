@@ -99,7 +99,7 @@ def create_custom_chrome():
     time.sleep(5)
 
     driver = webdriver.Chrome(
-        service=Service(),
+        service=Service(executable_path=CHROMEDRIVER_FOR_TESTING_PATH,),
         options=options
     )
     return driver
