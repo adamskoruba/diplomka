@@ -1,5 +1,13 @@
+import subprocess
+import time
+
+import requests
+
 from selenium import webdriver
 from enum import Enum
+
+from selenium.webdriver.chrome.options import Options
+
 from magic import undetected_chromedriver as uc
 from selenium.webdriver.chrome.service import Service
 
@@ -14,6 +22,8 @@ CHROMEDRIVER_FOR_TESTING_PATH = r"C:\Users\adams\Downloads\chromedriver-win32\ch
 class BrowserType(Enum):
     DEFAULT_SELENIUM = "default_selenium"
     UNDETECTED_CHROMEDRIVER = "undetected_chromedriver"
+    CUSTOM_SELENIUM = "custom_selenium"
+    CUSTOM_CHROME = "custom_chrome"
 
 class BrowserFactory:
     _registry = {}
@@ -42,10 +52,58 @@ def create_default_selenium():
     driver = webdriver.Chrome(options=options, service=service)
     return driver
 
+@BrowserFactory.register(BrowserType.CUSTOM_SELENIUM)
+def create_custom_selenium():
+    options = Options()
+
+
+
+    # flags = [
+    #     "--lang=sk-SK",
+    #     "--no-default-browser-check",
+    #     "--no-first-run",
+    #     "--no-sandbox",
+    #     "--test-type",
+    #     "--window-size=1920,1080",
+    #     "--start-maximized",
+    #     "--log-level=0",
+    #     "--flag-switches-begin",
+    #     "--flag-switches-end",
+    # ]
+    #
+    # options = Options()
+    # for flag in flags:
+    #     options.add_argument(flag)
+    # print(options)
+    options.binary_location = CHROME_BETA_PATH
+    service = Service(CHROMEDRIVER_FOR_TESTING_PATH)
+
+    driver = webdriver.Chrome(options=options, service=service)
+    return driver
+
 @BrowserFactory.register(BrowserType.UNDETECTED_CHROMEDRIVER)
 def create_undetected_chromedriver():
     driver = uc.Chrome(browser_executable_path=CHROME_BETA_PATH)
     return driver
+
+@BrowserFactory.register(BrowserType.CUSTOM_CHROME)
+def create_custom_chrome():
+    subprocess.Popen([
+        CHROME_FOR_TESTING_PATH,
+        "--remote-debugging-port=9222",
+    ])
+    options = Options()
+    options.debugger_address = "127.0.0.1:9222"
+    options.binary_location = CHROME_FOR_TESTING_PATH
+
+    time.sleep(5)
+
+    driver = webdriver.Chrome(
+        service=Service(),
+        options=options
+    )
+    return driver
+
 
 """@BrowserFactory.register(BrowserType.?)
 def create_default_selenium():
