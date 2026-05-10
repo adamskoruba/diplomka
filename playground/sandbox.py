@@ -6,6 +6,7 @@ from js.utils import load_js
 CHATGPT = "https://www.chatgpt.com/"
 DP = "https://dp.skoruba.sk/"
 CHROME_VERSION="chrome://version"
+FINGERPRINT = "https://fingerprint.com/demo/"
 
 browser = BrowserFactory.create(BrowserType.CUSTOM_CHROME)
 
@@ -13,6 +14,6 @@ browser = BrowserFactory.create(BrowserType.CUSTOM_CHROME)
 #browser.execute_cdp_cmd("Page.addScriptToEvaluateOnNewDocument", {"source": load_js("patch_webdriver.js")})
 
 print('xd')
-browser.get(CHATGPT)
+browser.get(FINGERPRINT)
 input("Press ENTER to quit...")
 browser.quit()
