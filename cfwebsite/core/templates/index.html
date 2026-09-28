@@ -1,43 +1,89 @@
 <!doctype html>
+
 <html lang="sk">
 <head>
   <meta charset="utf-8">
-  <title>Turnstile test</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Turnstile Test</title>
 
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"></script>
+
 </head>
+
 <body>
+  <h1>Cloudflare Turnstile test</h1>
+
+  <div id="status">Čakám...</div>
 
   <div id="turnstile"></div>
 
-  <h3>Token:</h3>
+  <h3>Token</h3>
   <textarea id="token" rows="8" cols="100" readonly></textarea>
 
+  <h3>Debug</h3>
+  <pre id="debug"></pre>
+
   <script>
-    window.addEventListener("load", () => {
-      turnstile.render("#turnstile", {
-        sitekey: "0x4AAAAAAC0ppwLT92C3TrAq",
-        appearance: "interaction-only",
-        execution: "execute",
+    const status = document.getElementById("status");
+    const tokenOutput = document.getElementById("token");
+    const debug = document.getElementById("debug");
 
-        callback: function(token) {
-          console.log("Turnstile token:", token);
-          document.getElementById("token").value = token;
-        },
+    function log(message) {
+      console.log(message);
+      debug.textContent += message + "\n";
+    }
 
-        "error-callback": function(error) {
-          document.getElementById("token").value =
-            "Turnstile error: " + (error || "unknown");
-        },
+    window.addEventListener("load", function () {
+      log("Page loaded");
+      log("Origin: " + window.location.origin);
+      log("Hostname: " + window.location.hostname);
+      log("Turnstile: " + typeof window.turnstile);
 
-        "timeout-callback": function() {
-          document.getElementById("token").value = "Timeout";
-        },
+      if (!window.turnstile) {
+        status.textContent = "Turnstile API sa nenačítalo";
+        return;
+      }
 
-        "expired-callback": function() {
-          document.getElementById("token").value = "Token expired";
-        }
-      });
+      status.textContent = "Turnstile API načítané";
+
+      try {
+        const widgetId = window.turnstile.render("#turnstile", {
+          sitekey: "0x4AAAAAAC0ppwLT92C3TrAq",
+          appearance: "always",
+          execution: "render",
+
+          callback: function (token) {
+            status.textContent = "Úspešne overené";
+            tokenOutput.value = token;
+
+            log("TOKEN RECEIVED");
+            log("Token length: " + token.length);
+          },
+
+          "error-callback": function (error) {
+            status.textContent = "Turnstile error";
+            log("ERROR: " + (error || "unknown"));
+            console.error("Turnstile error:", error);
+          },
+
+          "timeout-callback": function () {
+            status.textContent = "Timeout";
+            log("TIMEOUT");
+          },
+
+          "expired-callback": function () {
+            status.textContent = "Token expired";
+            tokenOutput.value = "";
+            log("EXPIRED");
+          }
+        });
+
+        log("Widget ID: " + widgetId);
+      } catch (error) {
+        status.textContent = "Render error";
+        log("Exception: " + error.message);
+        console.error(error);
+      }
     });
   </script>
 
