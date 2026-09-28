@@ -1,10 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="sk">
 <head>
-    <meta charset="UTF-8">
-    <title>CF Django</title>
+  <meta charset="utf-8">
+  <title>Turnstile test</title>
+
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"></script>
 </head>
 <body>
-    <h1>Vitaj na hlavnej stranke CF diplomky!</h1>
+
+  <div id="turnstile"></div>
+
+  <h3>Token:</h3>
+  <textarea id="token" rows="8" cols="100" readonly></textarea>
+
+  <script>
+    window.addEventListener("load", () => {
+      turnstile.render("#turnstile", {
+        sitekey: "0x4AAAAAAC0ppwLT92C3TrAq",
+        appearance: "interaction-only",
+        execution: "execute",
+
+        callback: function(token) {
+          console.log("Turnstile token:", token);
+          document.getElementById("token").value = token;
+        },
+
+        "error-callback": function(error) {
+          document.getElementById("token").value =
+            "Turnstile error: " + (error || "unknown");
+        },
+
+        "timeout-callback": function() {
+          document.getElementById("token").value = "Timeout";
+        },
+
+        "expired-callback": function() {
+          document.getElementById("token").value = "Token expired";
+        }
+      });
+    });
+  </script>
+
 </body>
 </html>
