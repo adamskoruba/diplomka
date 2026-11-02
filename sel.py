@@ -5,6 +5,7 @@ ALZA = "https://alza.sk"
 CLOUDFLARE = "https://www.cloudflare.com/"
 TICKETMASTER = "https://www.ticketmaster.com/"
 CHATGPT = "https://www.chatgpt.com/"
+SKORUBA = "https://skoruba.sk"
 
 driver = webdriver.Chrome()
 # driver.execute_cdp_cmd("Network.enable", {})
@@ -29,6 +30,6 @@ driver = webdriver.Chrome()
 #                     },
 #                 )
 
-driver.get(CHATGPT)
+driver.get(SKORUBA)
 input("Press ENTER to quit...")
 driver.quit()

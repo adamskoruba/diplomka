@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Window Context Inspector</title>
+</head>
+<body>
+<h2>Top window</h2>
+<pre id="output"></pre>
+
+<h2>Child iframe (self-inspecting)</h2>
+<iframe id="child" width="100%" height="500"></iframe>
+
+<h2>Parent's view of the child iframe</h2>
+<pre id="parent-view"></pre>
+
+<script>
+  function dumpLines(w, doc) {
+    var lines = [
+      "window.location.href:     " + w.location.href,
+      "window.location.origin:   " + w.location.origin,
+      "window.location.protocol: " + w.location.protocol,
+      "window.location.host:     " + w.location.host,
+      "window.location.hostname: " + w.location.hostname,
+      "window.location.port:     " + w.location.port,
+      "window.location.pathname: " + w.location.pathname,
+      "window.location.search:   " + w.location.search,
+      "window.location.hash:     " + w.location.hash,
+      "document.domain:          " + document.domain,
+      "window === window.top:    " + (w === w.top),
+      "window.top.location.href: " + w.top.location.href,
+      "window.self === window:   " + (w.self === w),
+      "window.top === window.self: " + (w.top === w.self),
+      "window === window.parent: " + (w === w.parent),
+      "window.parent.location.href: " + w.parent.location.href,
+      "window.frames.length:     " + w.frames.length,
+      "window.length:            " + w.length,
+      "window.name:              " + JSON.stringify(w.name),
+      "document.referrer:        " + (document.referrer || "(empty)")
+    ];
+    return lines.join("\n");
+  }
+
+  // top window dump
+  document.getElementById("output").textContent = dumpLines(window, document);
+
+  // self-inspecting iframe via srcdoc (same dump code, minimal)
+  var childDoc =
+          "<!doctype html><html><head><meta charset='utf-8'><title>child</title></head><body>" +
+          "<h3>Inside the iframe</h3>" +
+          "<pre id='output'></pre>" +
+          "<script>" +
+          "function dumpLines(w){" +
+          "var lines=[" +
+          '"window.location.href:     "+w.location.href,' +
+          '"window.location.origin:   "+w.location.origin,' +
+          '"window.location.protocol: "+w.location.protocol,' +
+          '"window.location.host:     "+w.location.host,' +
+          '"window.location.hostname: "+w.location.hostname,' +
+          '"window.location.port:     "+w.location.port,' +
+          '"window.location.pathname: "+w.location.pathname,' +
+          '"window.location.search:   "+w.location.search,' +
+          '"window.location.hash:     "+w.location.hash,' +
+          '"document.domain:          "+document.domain,' +
+          '"window === window.top:    "+(w===w.top),' +
+          '"window.top.location.href: "+w.top.location.href,' +
+          '"window.self === window:   "+(w.self===w),' +
+          '"window.top === window.self: "+(w.top===w.self),' +
+          '"window === window.parent: "+(w===w.parent),' +
+          '"window.parent.location.href: "+w.parent.location.href,' +
+          '"window.frames.length:     "+w.frames.length,' +
+          '"window.length:            "+w.length,' +
+          '"window.name:              "+JSON.stringify(w.name),' +
+          '"document.referrer:        "+(document.referrer||"(empty)")' +
+          "];" +
+          "return lines.join('\\n');" +
+          "}" +
+          "document.getElementById('output').textContent=dumpLines(window);" +
+          "<\/script></body></html>";
+
+  document.getElementById("child").srcdoc = childDoc;
+
+  document.getElementById("child").addEventListener("load", function () {
+    var f = document.getElementById("child");
+    try {
+      var c = f.contentWindow;
+      var lines = [
+        "iframe.contentWindow === window.frames[0]:       " + (c === window.frames[0]),
+        "iframe.contentWindow.parent === window (top):   " + (c.parent === window),
+        "iframe.contentWindow.top === window (top):       " + (c.top === window),
+        "iframe.contentWindow.location.href:              " + c.location.href,
+        "iframe.contentDocument.title:                    " + (f.contentDocument.title || "(empty)"),
+        "window.frames.length now:                       " + window.frames.length
+      ];
+      document.getElementById("parent-view").textContent = lines.join("\n");
+    } catch (e) {
+      document.getElementById("parent-view").textContent =
+              "Cross-origin access blocked: " + e.message;
+    }
+  });
+</script>
+</body>
+</html>

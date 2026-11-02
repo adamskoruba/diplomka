@@ -1,0 +1,4 @@
+skoruba.sk {
+    tls internal
+    reverse_proxy backend:8000
+}

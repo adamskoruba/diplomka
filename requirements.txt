@@ -10,12 +10,17 @@ attrs==25.4.0
     #   trio
 certifi==2026.2.25
     # via
+    #   curl-cffi
     #   requests
     #   selenium
 cffi==2.0.0
-    # via trio
+    # via
+    #   curl-cffi
+    #   trio
 charset-normalizer==3.4.7
     # via requests
+curl-cffi==0.16.3
+    # via -r requirements.in
 greenlet==3.3.2
     # via playwright
 h11==0.16.0
