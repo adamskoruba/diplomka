@@ -1,0 +1,58 @@
+
+<!doctype html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8" />
+  <title>DP Mouse</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 30px;
+    }
+
+    #dashboard {
+      margin-top: 30px;
+      padding: 15px;
+      width: 900px;
+      background: #111827;
+      color: white;
+      border-radius: 8px;
+    }
+
+    #logs div {
+      padding: 10px;
+      border-bottom: 1px solid #374151;
+      font-family: monospace;
+      font-size: 13px;
+    }
+  </style>
+</head>
+
+<body>
+
+<script>
+  function triggerClick() {
+    document.getElementById("btn-click-me").click();
+  }
+</script>
+
+<h1>Toto je mouse stranka</h1>
+
+<button id="btn-click-me" style="width: 200px; height: 50px;">
+  Klikna ma
+</button>
+
+<button id="btn-js-click" style="width: 200px; height: 50px;" onClick="triggerClick()">
+  Button na JS trigger kliku
+</button>
+
+<div id="dashboard">
+  <h2>Click Dashboard</h2>
+  <div id="logs"></div>
+</div>
+
+<script src="scripts/mouse_analyze.js"></script>
+
+</body>
+</html>

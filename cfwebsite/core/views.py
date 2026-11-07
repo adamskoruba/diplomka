@@ -5,3 +5,6 @@ def index(request):
 
 def url_spoof(request):
     return render(request, 'url_spoof.html')
+
+def mouse(request):
+    return render(request, 'mouse.html')
