@@ -59,11 +59,27 @@ function addClickListener() {
     });
 }
 
+function mouseTracking() {
+    window.addEventListener("mousemove", (e) => {
+        console.log({
+            timestamp: performance.now(),
+            x: e.clientX,
+            y: e.clientY,
+            event: e.type
+        });
+    }, true);
+}
+
+
 function isClickedInCenter(target, clickedX, clickedY) {
     const rect = target.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
-    return Math.abs(clickedX - centerX) < 1 && Math.abs(clickedY - centerY) < 1;
+    differenceX = Math.abs(clickedX - centerX);
+    differenceY = Math.abs(clickedY - centerY);
+
+    return differenceX < 1 && differenceY < 1;
 }
 
 addClickListener();
+mouseTracking();

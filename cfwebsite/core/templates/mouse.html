@@ -32,9 +32,28 @@
 <body>
 
 <script>
-  function triggerClick() {
+  function triggerJSClick() {
     document.getElementById("btn-click-me").click();
   }
+
+  function triggerEventClick() {
+    const element = document.getElementById("btn-click-me");
+    const rect = element.getBoundingClientRect();
+
+    const x = rect.left + rect.width / 2;
+    const y = rect.top + rect.height / 2;
+
+    element.dispatchEvent(new MouseEvent("click", {
+      bubbles: true,
+      cancelable: true,
+      view: window,
+      clientX: x,
+      clientY: y,
+      button: 0,
+      buttons: 1
+    }));
+  }
+
 </script>
 
 <h1>Toto je mouse stranka</h1>
@@ -43,8 +62,12 @@
   Klikna ma
 </button>
 
-<button id="btn-js-click" style="width: 200px; height: 50px;" onClick="triggerClick()">
+<button id="btn-js-click" style="width: 200px; height: 50px;" onClick="triggerJSClick()">
   Button na JS trigger kliku
+</button>
+
+<button id="btn-event-click" style="width: 200px; height: 50px;" onClick="triggerEventClick()">
+  Button na trigger click eventu
 </button>
 
 <div id="dashboard">
