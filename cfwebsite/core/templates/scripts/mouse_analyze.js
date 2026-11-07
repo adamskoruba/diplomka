@@ -1,5 +1,5 @@
 const data = [];
-
+window.mouseLogs = [];
 const listeners = [];
 
 function subscribe(callback) {
@@ -60,23 +60,41 @@ function addClickListener() {
 }
 
 function mouseTracking() {
+    const dot = document.createElement("div");
+
+    dot.style.position = "fixed";
+    dot.style.width = "12px";
+    dot.style.height = "12px";
+    dot.style.backgroundColor = "blue";
+    dot.style.borderRadius = "50%";
+    dot.style.pointerEvents = "none";
+    dot.style.zIndex = "10";
+    dot.style.transform = "translate(-50%, -50%)";
+
+    document.body.appendChild(dot);
+
     window.addEventListener("mousemove", (e) => {
-        console.log({
+        dot.style.left = e.clientX + "px";
+        dot.style.top = e.clientY + "px";
+
+        window.mouseLogs.push({
             timestamp: performance.now(),
             x: e.clientX,
-            y: e.clientY,
-            event: e.type
+            y: e.clientY
         });
-    }, true);
+        document.getElementById("mouse-logs").innerHTML = `
+                <h2>Log counter: ${window.mouseLogs.length}</h2>
+                <h3>Last log: ${JSON.stringify(window.mouseLogs.at(-1))}</h3>
+            `;
+    });
 }
-
 
 function isClickedInCenter(target, clickedX, clickedY) {
     const rect = target.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
-    differenceX = Math.abs(clickedX - centerX);
-    differenceY = Math.abs(clickedY - centerY);
+    let differenceX = Math.abs(clickedX - centerX);
+    let differenceY = Math.abs(clickedY - centerY);
 
     return differenceX < 1 && differenceY < 1;
 }
