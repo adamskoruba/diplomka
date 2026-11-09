@@ -23,7 +23,8 @@ class BrowserType(Enum):
     DEFAULT_SELENIUM = "default_selenium"
     UNDETECTED_CHROMEDRIVER = "undetected_chromedriver"
     CUSTOM_SELENIUM = "custom_selenium"
-    CUSTOM_CHROME = "custom_chrome"
+    CHROME_SUBPROCESS = "chrome_subprocess"
+    CUSTOM_CHROMIUM = "custom_chrome"
 
 class BrowserFactory:
     _registry = {}
@@ -86,8 +87,8 @@ def create_undetected_chromedriver():
     driver = uc.Chrome(browser_executable_path=CHROME_BETA_PATH)
     return driver
 
-@BrowserFactory.register(BrowserType.CUSTOM_CHROME)
-def create_custom_chrome():
+@BrowserFactory.register(BrowserType.CHROME_SUBPROCESS)
+def create_chrome_subprocess():
     subprocess.Popen([
         CHROME_FOR_TESTING_PATH,
         "--remote-debugging-port=9222",
@@ -104,6 +105,19 @@ def create_custom_chrome():
     )
     return driver
 
+
+@BrowserFactory.register(BrowserType.CUSTOM_CHROMIUM)
+def create_custom_chromium():
+    chromium_path = r"C:\src\chromium\src\out\Default\chrome.exe"
+    chromedriver_path = r"C:\src\chromium\src\out\Default\chromedriver.exe"
+
+    options = Options()
+    options.binary_location = chromium_path
+
+    service = Service(executable_path=chromedriver_path)
+
+    driver = webdriver.Chrome(options=options, service=service)
+    return driver
 
 """@BrowserFactory.register(BrowserType.?)
 def create_default_selenium():

@@ -9,7 +9,7 @@ CHROME_VERSION="chrome://version"
 FINGERPRINT = "https://fingerprint.com/demo/"
 LOCALHOST = "http://localhost:8000/"
 
-browser = BrowserFactory.create(BrowserType.UNDETECTED_CHROMEDRIVER)
+browser = BrowserFactory.create(BrowserType.CUSTOM_CHROMIUM)
 
 #browser.execute_cdp_cmd("Page.addScriptToEvaluateOnNewDocument", {"source": load_js("touched_navigator.js")})
 #browser.execute_cdp_cmd("Page.addScriptToEvaluateOnNewDocument", {"source": load_js("patch_webdriver.js")})
